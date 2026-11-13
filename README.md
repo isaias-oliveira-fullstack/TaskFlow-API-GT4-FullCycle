@@ -27,7 +27,12 @@ Confira abaixo uma demonstração do uso da API para criar, consultar e excluir 
 
 A demonstração em vídeo está disponível no arquivo a seguir:
 
-[Assistir à demonstração do TaskFlow API (MP4)](./preview.mp4)
+<video controls width="100%">
+  <source src="https://raw.githubusercontent.com/isaias-oliveira-fullstack/TaskFlow-API-GT4-FullCycle/main/preview.mp4" type="video/mp4">
+  Seu navegador não suporta a reprodução de vídeo HTML5.
+</video>
+
+Se o player não estiver disponível, [abra o arquivo MP4](./preview.mp4).
 
 ## Funcionalidades
 
@@ -209,7 +214,7 @@ Uma resposta `201` contém a tarefa criada, incluindo ID e timestamps:
 
 ```json
 {
-  "id": 12,
+  "id": 123,
   "title": "Estudar TypeScript",
   "description": "Praticar tipos e funções assíncronas",
   "status": "PENDING",
