@@ -1,0 +1,49 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: taskflow-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-taskflow}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_USER: ${MYSQL_USER:-taskflow}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-taskflow_password}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init-test-database.sql:/docker-entrypoint-initdb.d/10-create-test-database.sql:ro
+    networks:
+      - taskflow-network
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping --host=127.0.0.1 --user=root --password=$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  api:
+    build:
+      context: .
+    container_name: taskflow-api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - taskflow-network
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL: mysql://${MYSQL_USER:-taskflow}:${MYSQL_PASSWORD:-taskflow_password}@db:3306/${MYSQL_DATABASE:-taskflow}
+      TEST_DATABASE_URL: mysql://${MYSQL_USER:-taskflow}:${MYSQL_PASSWORD:-taskflow_password}@db:3306/taskflow_test
+    ports:
+      - "3000:3000"
+
+volumes:
+  mysql_data:
+
+networks:
+  taskflow-network:
+    name: taskflow-network
+    driver: bridge

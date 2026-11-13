@@ -1,0 +1,341 @@
+openapi: 3.0.3
+info:
+  title: TaskFlow API
+  version: 1.0.0
+  description: API REST para gerenciamento de tarefas.
+servers:
+  - url: http://localhost:3000
+paths:
+  /health:
+    get:
+      summary: Health check da API
+      responses:
+        '200':
+          description: API disponível
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+  /metrics:
+    get:
+      summary: Métricas Prometheus
+      responses:
+        '200':
+          description: Métricas da aplicação em formato Prometheus
+          content:
+            text/plain:
+              schema:
+                type: string
+        '500':
+          description: Erro interno do servidor
+  /docs:
+    get:
+      summary: Redireciona para a interface Swagger UI
+      responses:
+        '301':
+          description: Redirecionamento para /docs/
+          headers:
+            Location:
+              schema:
+                type: string
+              example: /docs/
+  /docs/:
+    get:
+      summary: Interface interativa Swagger UI
+      responses:
+        '200':
+          description: Documentação interativa da API
+          content:
+            text/html:
+              schema:
+                type: string
+  /tasks:
+    get:
+      summary: Lista tarefas
+      responses:
+        '200':
+          description: Tarefas cadastradas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+        '500':
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Cria uma tarefa
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTaskInput'
+      responses:
+        '201':
+          description: Tarefa criada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Corpo da requisição muito grande
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /tasks/:
+    get:
+      summary: Lista tarefas (rota com barra final)
+      responses:
+        '200':
+          description: Tarefas cadastradas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+        '500':
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /tasks/{id}:
+    get:
+      summary: Consulta tarefa por identificador
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: Identificador da tarefa
+      responses:
+        '200':
+          description: Tarefa encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          description: Tarefa não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '400':
+          description: Identificador inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    patch:
+      summary: Atualiza parcialmente uma tarefa
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: Identificador da tarefa
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTaskInput'
+            examples:
+              updateStatus:
+                summary: Atualizar somente o status
+                value:
+                  status: IN_PROGRESS
+              updateTitleAndPriority:
+                summary: Atualizar título e prioridade
+                value:
+                  title: Estudar TypeScript avançado
+                  priority: HIGH
+              updateAllFields:
+                summary: Atualizar todos os campos
+                value:
+                  title: Finalizar TaskFlow API
+                  description: Concluir implementação e testes
+                  status: COMPLETED
+                  priority: MEDIUM
+      responses:
+        '200':
+          description: Tarefa atualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          description: Identificador ou dados de atualização inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Corpo da requisição muito grande
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Tarefa não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Exclui tarefa por identificador
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: Identificador da tarefa
+      responses:
+        '204':
+          description: Tarefa excluída
+        '400':
+          description: Identificador inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Tarefa não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          example: Tarefa não encontrada.
+    CreateTaskInput:
+      type: object
+      required:
+        - title
+        - description
+      properties:
+        title:
+          type: string
+          minLength: 3
+          maxLength: 255
+          example: Implementar endpoint de tarefas
+        description:
+          type: string
+          example: Criar a tarefa e validar os campos obrigatórios.
+        status:
+          type: string
+          enum: [PENDING, IN_PROGRESS, COMPLETED]
+          default: PENDING
+        priority:
+          type: string
+          enum: [LOW, MEDIUM, HIGH]
+          default: MEDIUM
+    UpdateTaskInput:
+      type: object
+      minProperties: 1
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+          minLength: 3
+          maxLength: 255
+          example: Estudar TypeScript avançado
+        description:
+          type: string
+          minLength: 5
+          example: Concluir implementação e testes
+        status:
+          type: string
+          enum: [PENDING, IN_PROGRESS, COMPLETED]
+        priority:
+          type: string
+          enum: [LOW, MEDIUM, HIGH]
+    Task:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - status
+        - priority
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Implementar endpoint de tarefas
+        description:
+          type: string
+          example: Criar a tarefa e validar os campos obrigatórios.
+        status:
+          type: string
+          enum: [PENDING, IN_PROGRESS, COMPLETED]
+          example: PENDING
+        priority:
+          type: string
+          enum: [LOW, MEDIUM, HIGH]
+          example: MEDIUM
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time

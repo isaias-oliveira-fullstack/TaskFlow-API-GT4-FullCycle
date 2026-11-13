@@ -1,0 +1,110 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "TaskFlow WSL required environment check",
+			"type": "shell",
+			"command": "wsl.exe",
+			"args": [
+				"-d",
+				"Ubuntu-24.04",
+				"--",
+				"bash",
+				"-lc",
+				"cd /mnt/c/TaskFlow-API && uname -a && pwd && docker --version && docker compose version"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "TaskFlow requested WSL checks",
+			"type": "shell",
+			"command": "wsl.exe",
+			"args": [
+				"-d",
+				"Ubuntu-24.04",
+				"--",
+				"bash",
+				"-lc",
+				"cd /mnt/c/TaskFlow-API && node --version && npm --version && npm run typecheck && npm run test:unit && npm run build"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "TaskFlow checks in API container via WSL",
+			"type": "shell",
+			"command": "wsl.exe",
+			"args": [
+				"-d",
+				"Ubuntu-24.04",
+				"--",
+				"bash",
+				"-lc",
+				"cd /mnt/c/TaskFlow-API && docker compose exec -T api npm run typecheck && docker compose exec -T api npm run test:unit && docker compose exec -T api npm run build"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "TaskFlow sync audited test files in WSL",
+			"type": "shell",
+			"command": "wsl.exe",
+			"args": [
+				"-d",
+				"Ubuntu-24.04",
+				"--",
+				"bash",
+				"-lc",
+				"cd /mnt/c/TaskFlow-API && docker compose cp vitest.config.ts api:/app/vitest.config.ts && docker compose cp tests/integration/tasks.integration.test.ts api:/app/tests/integration/tasks.integration.test.ts"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "TaskFlow rerun typecheck unit build WSL",
+			"type": "shell",
+			"command": "wsl.exe",
+			"args": [
+				"-d",
+				"Ubuntu-24.04",
+				"--",
+				"bash",
+				"-lc",
+				"cd /mnt/c/TaskFlow-API && docker compose exec -T api npm run typecheck && docker compose exec -T api npm run test:unit && docker compose exec -T api npm run build"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "TaskFlow WSL final database API checks",
+			"type": "shell",
+			"command": "wsl.exe",
+			"args": [
+				"-d",
+				"Ubuntu-24.04",
+				"--",
+				"bash",
+				"-lc",
+				"cd /mnt/c/TaskFlow-API && docker compose ps && docker compose exec -T api npx prisma migrate status && echo GET_health && curl -sS -o /dev/null -w %{http_code} http://localhost:3000/health && echo && echo GET_tasks && curl -sS -o /dev/null -w %{http_code} http://localhost:3000/tasks && echo && echo GET_tasks_slash && curl -sS -o /dev/null -w %{http_code} http://localhost:3000/tasks/ && echo && echo GET_task_1 && curl -sS -o /dev/null -w %{http_code} http://localhost:3000/tasks/1 && echo && echo GET_task_2 && curl -sS -o /dev/null -w %{http_code} http://localhost:3000/tasks/2 && echo && echo GET_metrics && curl -sS -o /dev/null -w %{http_code} http://localhost:3000/metrics && echo && echo HEAD_docs && curl -I -sS -o /dev/null -w %{http_code} http://localhost:3000/docs && echo && echo HEAD_docs_follow_redirect && curl -I -L -sS -o /dev/null -w %{http_code} http://localhost:3000/docs && echo && curl -fsS http://localhost:3000/docs/swagger-ui-init.js | grep -q /metrics && echo swagger_metrics_path_present && curl -fsS http://localhost:3000/docs/swagger-ui-init.js | grep -Fq /tasks/ && echo swagger_tasks_slash_path_present && docker compose logs api --tail=50"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "TaskFlow build isolation fix in WSL",
+			"type": "shell",
+			"command": "wsl.exe",
+			"args": [
+				"-d",
+				"Ubuntu-24.04",
+				"--",
+				"bash",
+				"-lc",
+				"cd /mnt/c/TaskFlow-API && docker compose build api && docker compose up -d --no-deps api"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}

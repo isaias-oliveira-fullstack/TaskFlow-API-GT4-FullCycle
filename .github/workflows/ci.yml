@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: taskflow
+          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_USER: taskflow
+          MYSQL_PASSWORD: taskflow_password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -prootpassword"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    env:
+      DATABASE_URL: mysql://taskflow:taskflow_password@127.0.0.1:3306/taskflow
+      TEST_DATABASE_URL: mysql://taskflow:taskflow_password@127.0.0.1:3306/taskflow_test
+      NODE_ENV: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npx prisma generate
+
+      - name: Apply Prisma migrations
+        run: npx prisma migrate deploy
+
+      - name: Create integration test database
+        run: |
+          mysql --host=127.0.0.1 --user=root --password=rootpassword \
+            --execute="CREATE DATABASE IF NOT EXISTS taskflow_test; GRANT ALL PRIVILEGES ON taskflow_test.* TO 'taskflow'@'%';"
+
+      - name: Apply Prisma migrations to test database
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: mysql://taskflow:taskflow_password@127.0.0.1:3306/taskflow_test
+
+      - name: Scan for secrets with Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Run tests with coverage
+        run: npm test
