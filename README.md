@@ -1,8 +1,6 @@
 # TaskFlow API
 
-[![CI](https://github.com/isaias-oliveira-fullstack/TaskFlow-API-GT4-FullCycle/actions/workflows/ci.yml/badge.svg)](https://github.com/isaias-oliveira-fullstack/TaskFlow-API-GT4-FullCycle/actions/workflows/ci.yml)
-
-![Node.js](https://img.shields.io/badge/Node.js-22-339933?logo=node.js&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?logo=typescript&logoColor=white) ![Express](https://img.shields.io/badge/Express-4.21-000000?logo=express&logoColor=white) ![Prisma](https://img.shields.io/badge/Prisma-5.10-2D3748?logo=prisma&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-8-4479A1?logo=mysql&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white) ![Vitest](https://img.shields.io/badge/Vitest-Testes-6E9F18?logo=vitest&logoColor=white)
+[![CI](https://github.com/isaias-oliveira-fullstack/TaskFlow-API-GT4-FullCycle/actions/workflows/ci.yml/badge.svg)](https://github.com/isaias-oliveira-fullstack/TaskFlow-API-GT4-FullCycle/actions/workflows/ci.yml)![Node.js](https://img.shields.io/badge/Node.js-22-339933?logo=node.js&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?logo=typescript&logoColor=white) ![Express](https://img.shields.io/badge/Express-4.21-000000?logo=express&logoColor=white) ![Prisma](https://img.shields.io/badge/Prisma-5.10-2D3748?logo=prisma&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-8-4479A1?logo=mysql&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white) ![Vitest](https://img.shields.io/badge/Vitest-Testes-6E9F18?logo=vitest&logoColor=white)
 
 API REST para cadastro e gerenciamento de tarefas, com persistência em MySQL. Este projeto foi desenvolvido como trabalho final da **Formação FullCycle — Engenharia de Software** e demonstra organização em camadas, Repository Pattern, validação de domínio, testes automatizados e execução com Docker Compose.
 
@@ -27,12 +25,9 @@ Confira abaixo uma demonstração do uso da API para criar, consultar e excluir 
 
 A demonstração em vídeo está disponível no arquivo a seguir:
 
-<video controls width="100%">
-  <source src="https://raw.githubusercontent.com/isaias-oliveira-fullstack/TaskFlow-API-GT4-FullCycle/main/preview.mp4" type="video/mp4">
-  Seu navegador não suporta a reprodução de vídeo HTML5.
-</video>
+Clique na miniatura para assistir à demonstração no YouTube:
 
-Se o player não estiver disponível, [abra o arquivo MP4](./preview.mp4).
+[![Assistir à demonstração do TaskFlow API](https://img.youtube.com/vi/SFBjGeGHfbo/hqdefault.jpg)](https://www.youtube.com/watch?v=SFBjGeGHfbo)
 
 ## Funcionalidades
 
