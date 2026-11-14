@@ -1,6 +1,6 @@
 # TaskFlow API
 
-[![CI](https://github.com/isaias-oliveira-fullstack/TaskFlow-API-GT4-FullCycle/actions/workflows/ci.yml/badge.svg)](https://github.com/isaias-oliveira-fullstack/TaskFlow-API-GT4-FullCycle/actions/workflows/ci.yml)![Node.js](https://img.shields.io/badge/Node.js-22-339933?logo=node.js&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?logo=typescript&logoColor=white) ![Express](https://img.shields.io/badge/Express-4.21-000000?logo=express&logoColor=white) ![Prisma](https://img.shields.io/badge/Prisma-5.10-2D3748?logo=prisma&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-8-4479A1?logo=mysql&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white) ![Vitest](https://img.shields.io/badge/Vitest-Testes-6E9F18?logo=vitest&logoColor=white)
+[![CI](https://github.com/isaias-oliveira-fullstack/TaskFlow-API-GT4-FullCycle/actions/workflows/ci.yml/badge.svg)](https://github.com/isaias-oliveira-fullstack/TaskFlow-API-GT4-FullCycle/actions/workflows/ci.yml) ![Node.js](https://img.shields.io/badge/Node.js-22-339933?logo=node.js&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?logo=typescript&logoColor=white) ![Express](https://img.shields.io/badge/Express-4.21-000000?logo=express&logoColor=white) ![Prisma](https://img.shields.io/badge/Prisma-5.10-2D3748?logo=prisma&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-8-4479A1?logo=mysql&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white) ![Vitest](https://img.shields.io/badge/Vitest-Testes-6E9F18?logo=vitest&logoColor=white)
 
 API REST para cadastro e gerenciamento de tarefas, com persistência em MySQL. Este projeto foi desenvolvido como trabalho final da **Formação FullCycle — Engenharia de Software** e demonstra organização em camadas, Repository Pattern, validação de domínio, testes automatizados e execução com Docker Compose.
 
@@ -8,7 +8,7 @@ API REST para cadastro e gerenciamento de tarefas, com persistência em MySQL. E
 
 O TaskFlow permite criar, consultar, atualizar e excluir tarefas por meio de uma API REST. A proposta é aplicar conceitos de engenharia de software em um projeto prático, incluindo separação de responsabilidades, persistência de dados, documentação de API, observabilidade e testes.
 
-**Nível:** Projeto final da Formação FullCycle — Engenharia de Software, com foco em desenvolvimento backend e arquitetura em camadas.
+**Nível:** Projeto final da Formação FullCycle - Engenharia de Software, com foco em desenvolvimento backend e arquitetura em camadas.
 
 ## Materiais para entrega
 
@@ -23,11 +23,11 @@ O TaskFlow permite criar, consultar, atualizar e excluir tarefas por meio de uma
 
 Confira abaixo uma demonstração do uso da API para criar, consultar e excluir tarefas.
 
-A demonstração em vídeo está disponível no arquivo a seguir:
+**Vídeo demonstrativo no arquivo a seguir:** [preview.mp4](./preview.mp4)
 
-Clique na miniatura para assistir à demonstração no YouTube:
+Clique na miniatura abaixo para assistir à demonstração completa no YouTube:
 
-[![Assistir à demonstração do TaskFlow API](https://img.youtube.com/vi/SFBjGeGHfbo/hqdefault.jpg)](https://www.youtube.com/watch?v=SFBjGeGHfbo)
+[![Assistir à demonstração do TaskFlow API](https://img.youtube.com/vi/SFBjGeGHfbo/maxresdefault.jpg)](https://www.youtube.com/watch?v=SFBjGeGHfbo)
 
 ## Funcionalidades
 
